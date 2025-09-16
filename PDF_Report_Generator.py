@@ -726,9 +726,6 @@ def generate_pdf_report():
     # Title page
     story.extend(create_title_page(doc, styles))
     
-    # Tally section
-    story.extend(create_tally_section(data, styles))
-    
     # Summary section
     story.extend(create_summary_section(data, styles))
     

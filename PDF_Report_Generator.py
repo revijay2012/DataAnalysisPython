@@ -23,7 +23,7 @@ def load_and_analyze_data():
     
     # Load Excel files
     WoodTrans = pd.read_excel("/Users/vijayaraghavandevaraj/Downloads/Wood - TransReport.xlsx")
-    WoodTax = pd.read_excel("/Users/vijayaraghavandevaraj/Downloads/Wood - Tax Report.xlsx")
+    WoodTax = pd.read_excel("/Users/vijayaraghavandevaraj/Downloads/wtax.xlsx")
     
     # Prepare transaction data
     trans_pos_df = WoodTrans[WoodTrans['Source'] == 'pos'].copy()
@@ -193,24 +193,20 @@ def create_summary_section(data, styles):
     difference = trans_total - tax_total
     missing_count = len(data['missing_in_tax'])
     missing_amount = data['missing_in_tax']['Amount'].sum()
-    diff_count = len(data['significant_mismatches'])
-    diff_amount = data['merged_comparison']['Amount_Diff'].sum()
+    
+    # Calculate total tax amount from tax records
+    total_tax_amount = data['tax_aug']['Tax'].sum()
     
     # Create summary table
     summary_data = [
         ['Metric', 'Value'],
         ['Transaction Report Total', f'${trans_total:,.2f}'],
         ['Tax Report Total', f'${tax_total:,.2f}'],
+        ['Total Tax Amount', f'${total_tax_amount:,.2f}'],
         ['Total Difference', f'${difference:,.2f}'],
         ['', ''],
         ['Missing Records', f'{missing_count} orders'],
-        ['Missing Amount', f'${missing_amount:,.2f}'],
-        ['Amount Differences', f'{diff_count} orders'],
-        ['Difference Amount', f'${diff_amount:,.2f}'],
-        ['', ''],
-        ['Total Orders (Transaction)', f'{len(data["trans_aug_grouped"]):,}'],
-        ['Total Orders (Tax)', f'{len(data["tax_aug"]):,}'],
-        ['Matching Orders', f'{len(data["merged_comparison"]):,}']
+        ['Missing Amount', f'${missing_amount:,.2f}']
     ]
     
     summary_table = Table(summary_data, colWidths=[3*inch, 2*inch])

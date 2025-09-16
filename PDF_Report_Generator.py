@@ -732,12 +732,6 @@ def generate_pdf_report():
     # Summary section
     story.extend(create_summary_section(data, styles))
     
-    # Missing records section
-    story.extend(create_missing_records_section(data, styles))
-    
-    # Amount differences section
-    story.extend(create_amount_differences_section(data, styles))
-    
     # All transaction records section
     story.extend(create_all_transactions_section(data, styles))
     

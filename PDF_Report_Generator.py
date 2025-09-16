@@ -670,11 +670,11 @@ def generate_pdf_report():
     # Title page
     story.extend(create_title_page(doc, styles))
     
-    # Missing record tally section
-    story.extend(create_missing_record_tally_section(data, styles))
-    
     # Summary section
     story.extend(create_summary_section(data, styles))
+    
+    # Missing record tally section
+    story.extend(create_missing_record_tally_section(data, styles))
     
     # All transaction records section
     story.extend(create_all_transactions_section(data, styles))

@@ -129,8 +129,8 @@ def create_title_page(doc, styles):
     story.append(PageBreak())
     return story
 
-def create_tally_section(data, styles):
-    """Create tally summary section with the specific data provided."""
+def create_missing_record_tally_section(data, styles):
+    """Create missing record tally section with the specific data provided."""
     story = []
     
     # Section header
@@ -139,69 +139,13 @@ def create_tally_section(data, styles):
         parent=styles['Heading1'],
         fontSize=16,
         spaceAfter=12,
-        textColor=colors.darkblue
+        textColor=colors.darkred
     )
     
-    story.append(Paragraph("📊 OVERALL TALLY", header_style))
-    story.append(Spacer(1, 0.2*inch))
-    
-    # Overall Tally Table
-    tally_data = [
-        ['Metric', 'Value'],
-        ['Total records in trans_aug', '699'],
-        ['Total records in tax_aug', '693'],
-        ['Total matching records', '693'],
-        ['Records missing in tax_aug', '3'],
-        ['Records with amount differences', '0']
-    ]
-    
-    tally_table = Table(tally_data, colWidths=[3*inch, 2*inch])
-    tally_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 12),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black)
-    ]))
-    
-    story.append(tally_table)
-    story.append(Spacer(1, 0.3*inch))
-    
-    # Amount Tally Section
-    story.append(Paragraph("💰 AMOUNT TALLY", header_style))
-    story.append(Spacer(1, 0.2*inch))
-    
-    amount_data = [
-        ['Metric', 'Amount'],
-        ['Total transaction amount (August)', '$9,841.10'],
-        ['Total tax report amount (August)', '$9,441.11'],
-        ['Difference (Trans - Tax)', '$399.99'],
-        ['Total missing transaction value', '$399.99'],
-        ['Total amount discrepancy', '$-0.00']
-    ]
-    
-    amount_table = Table(amount_data, colWidths=[3*inch, 2*inch])
-    amount_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.darkgreen),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 12),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black)
-    ]))
-    
-    story.append(amount_table)
-    story.append(Spacer(1, 0.3*inch))
-    
-    # Missing Record Tally Section
     story.append(Paragraph("📋 MISSING RECORD TALLY", header_style))
     story.append(Spacer(1, 0.2*inch))
     
+    # Missing Record Tally Table
     missing_records_data = [
         ['#', 'Order ID', 'Amount', 'Date', 'Payment'],
         ['1', '1754594250742', '$14.54', '08/07', 'physicalCard'],
@@ -725,6 +669,9 @@ def generate_pdf_report():
     
     # Title page
     story.extend(create_title_page(doc, styles))
+    
+    # Missing record tally section
+    story.extend(create_missing_record_tally_section(data, styles))
     
     # Summary section
     story.extend(create_summary_section(data, styles))
